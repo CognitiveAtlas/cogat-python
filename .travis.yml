@@ -17,7 +17,6 @@ env:
     - DISTRIB="standard-linux" PYTHON_VERSION="2.7" COVERAGE="false"
 
 script: 
-    - python continuous_integration/show-python-packages-versions.py
     - bash cognitiveatlas/tests/run_tests.sh $PWD/cognitiveatlas/tests $PWD
 
 after_success:

@@ -15,9 +15,7 @@ import string
 import urllib
 import utils
 import urllib2
-import numpy as np
 import pandas
-import nibabel as nb
 import numpy as np
 from utils import DataJson
 

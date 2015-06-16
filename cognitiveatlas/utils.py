@@ -13,9 +13,7 @@ import os
 import json
 import errno
 import pandas
-import rdflib
 import urllib2
-import numpy as np
 from urllib2 import Request, urlopen, HTTPError
 
 # File operations 
