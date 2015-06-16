@@ -21,8 +21,8 @@ setup(
     url="http://www.cognitiveatlas.org",
 
     license="LICENSE.txt",
-    description="python functions to use cognitive atlas",
+    description="python wrapper for the cognitive atlas RESTful API",
 
-    install_requires = ["pandas","rdflib"]
+    install_requires = ["pandas"]
 
 )
