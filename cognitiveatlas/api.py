@@ -8,16 +8,15 @@ functions for working with the cognitive atlas!
 
 
 """
-
-import os
-import json
+from cognitiveatlas.utils import DataJson
+import cognitiveatlas.utils
+import numpy as np
+import urllib2
 import string
 import urllib
-import utils
-import urllib2
 import pandas
-import numpy as np
-from utils import DataJson
+import json
+import os
 
 __author__ = ["Poldracklab","Vanessa Sochat"]
 __version__ = "$Revision: 1.0 $"
@@ -55,13 +54,6 @@ Example: http://cognitiveatlas.org/api/v-alpha/concept?concept_id=trm_4a3fd79d09
 
 """
 def get_concept(concept_id=None,concept_name=None,contrast_id=None):
-    if concept_id != None:
-        concept_id = "concept_id=%s" %(concept_id)
-    if concept_name != None:
-        concept_name = "concept_name=%s" %(concept_name)
-    if contrast_id != None:
-        contrast_id = "contrast_id=%s" %(contrast_id)
-    
     base_url = "http://cognitiveatlas.org/api/%s/concept" %(apiversion)
     parameters = {"concept_id":concept_id,
                   "concept_name":concept_name,
@@ -81,14 +73,9 @@ task_name - Return the specified Task.
 
 """
 def get_task(task_id=None,task_name=None):
-    if task_id != None:
-        task_id = "task_id=%s" %(task_id)
-    if concept_name != None:
-        task_name = "task_name=%s" %(task_name)
-
     base_url = "http://cognitiveatlas.org/api/%s/task" %(apiversion)
-    parameters = {"task_id":concept_id,
-                  "task_name":concept_name}
+    parameters = {"task_id":task_id,
+                  "task_name":task_name}
     url = generate_url(base_url,parameters)
     result = DataJson(url)
     print result
@@ -103,13 +90,7 @@ disorder_name - Return the specified Disorder.
 [no parameters] - Return all Disorders.
 
 """
-
 def get_disorder(disorder_id=None,disorder_name=None):
-    if disorder_id != None:
-        disorder_id = "disorder_id=%s" %(disorder_id)
-    if disorder_name != None:
-        disorder_name = "disorder_name=%s" %(disorder_name)
-
     base_url = "http://cognitiveatlas.org/api/%s/disorder" %(apiversion)
     parameters = {"disorder_id":disorder_id,
                   "disorder_name":disorder_name}
@@ -128,7 +109,7 @@ parameters: a dictionary with the keys being the parameter, values being the val
 
 """
 def generate_url(base_url,parameters):
-    values = [x for x in parameters.values() if x]
+    values = [x.replace(" ","%20") for x in parameters.values() if x]
     keys = [key for key,val in parameters.iteritems() if val]
     arguments = ["%s=%s" %(keys[i],values[i]) for i in range(len(values))]
     arguments = "&".join(arguments)

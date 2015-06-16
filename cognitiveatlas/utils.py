@@ -59,11 +59,12 @@ def parse_json(myjson):
 class DataJson:
   """DataJson: internal class for storing json, accessed by NeuroVault Object"""
   def __init__(self,url):
+    print url
     self.url = url
-    self.json = get_json(url)
-    self.data = parse_json(self.json) 
+    self.txt = get_json(url)
+    self.json = parse_json(self.txt) 
     self.pandas = get_df(self.json)
     
   """Print json data fields"""
   def __str__(self):
-    return "Result Includes:\n.pandas [data frame] \n.data [dict]\n.json [list]\n.url [str]"
+    return "Result Includes:<pandas:data frame><json:dict><txt:str><url:str>"
