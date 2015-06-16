@@ -45,4 +45,5 @@ if [[ "$COVERAGE" == "true" ]]; then
     pip install coverage coveralls
 fi
 
+python setup.py sdist
 python setup.py install
