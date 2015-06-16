@@ -35,7 +35,7 @@ create_new_venv() {
 if [[ "$DISTRIB" == "standard-linux" ]]; then
     create_new_venv
     install_packages
-
+    python setup.py install
 else
     echo "Unrecognized distribution ($DISTRIB); cannot setup travis environment."
     exit 1
@@ -44,6 +44,3 @@ fi
 if [[ "$COVERAGE" == "true" ]]; then
     pip install coverage coveralls
 fi
-
-python setup.py sdist
-python setup.py install
