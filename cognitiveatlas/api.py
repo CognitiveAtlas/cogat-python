@@ -19,7 +19,7 @@ import numpy as np
 import pandas
 import nibabel as nb
 import numpy as np
-from utils import 
+from utils import DataJson
 
 __author__ = ["Poldracklab","Vanessa Sochat"]
 __version__ = "$Revision: 1.0 $"
