@@ -13,11 +13,11 @@ env:
   global:
     - TEST_RUN_FOLDER="/tmp" # folder where the tests are run from
   matrix:
-    - DISTRIB="standard-linux" PYTHON_VERSION="2.7" COVERAGE="true"
+    - DISTRIB="standard-linux" PYTHON_VERSION="2.7" COVERAGE="false"
 
 script: 
     - python continuous_integration/show-python-packages-versions.py
-    - bash cognitiveatlas/tests/run_tests.sh $PWD/cognitiveatlas/tests $TEST_RUN_FOLDER
+    - bash cognitiveatlas/tests/run_tests.sh $PWD/cognitiveatlas/tests $PWD
 
 after_success:
     - coveralls

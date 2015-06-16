@@ -1,5 +1,7 @@
 # Cognitive Atlas Python API
 
+https://travis-ci.org/CognitiveAtlas/cogat-python.svg?branch=master
+
 *in development*
 
 This API will allow python access to the RESTful API in the cognitive atlas. The current code is working with RDF, and this will be updated to use the new RESTful API (alpha) promptly. Functions include:
