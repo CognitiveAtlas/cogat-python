@@ -11,4 +11,4 @@ if [ "$#" -ne 2 ]; then
 fi
 
 cd $TEST_RUN_FOLDER
-nosetests --verbosity=3 --with-doctest $TESTDIR/test_api.py
+nosetests --verbosity=3 --nocapture --with-doctest $TESTDIR/test_api.py
