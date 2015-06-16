@@ -44,6 +44,6 @@ if [[ "$COVERAGE" == "true" ]]; then
     pip install coverage coveralls
 fi
 
-pip install pandas
-python setup.py sdist
-python setup.py install
+conda install pandas
+conda setup.py sdist
+conda setup.py install

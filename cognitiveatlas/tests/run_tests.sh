@@ -11,4 +11,9 @@ if [ "$#" -ne 2 ]; then
 fi
 
 cd $TEST_RUN_FOLDER
+which python
+PATH=/home/travis/miniconda/bin:$PATH
+export PATH
+which python
+which nosetests
 nosetests --verbosity=3 --with-doctest $TESTDIR/test_api.py
