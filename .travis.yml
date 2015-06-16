@@ -1,0 +1,26 @@
+language: python
+
+python:
+  - "2.7"
+
+virtualenv:
+  system_site_packages: true
+
+install:
+    - source continuous_integration/install.sh
+
+env:
+  global:
+    - TEST_RUN_FOLDER="/tmp" # folder where the tests are run from
+  matrix:
+    - DISTRIB="standard-linux" PYTHON_VERSION="2.7" COVERAGE="true"
+
+script: 
+    - python continuous_integration/show-python-packages-versions.py
+    - bash cognitiveatlas/tests/run_tests.sh $PWD/cognitiveatlas/tests $TEST_RUN_FOLDER
+
+after_success:
+    - coveralls
+    - echo $PWD
+    - ls $PWD/* -1
+
