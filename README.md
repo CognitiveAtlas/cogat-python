@@ -9,6 +9,10 @@ This API gives python access to the RESTful API in the Cognitive Atlas (alpha).
 - tasks
 - concepts
 - disorders
-- collections
 - contrasts
+
+
+### Documentation
+
+Read our complete [documentation](https://cogat-python.readthedocs.org) for getting started.
 
