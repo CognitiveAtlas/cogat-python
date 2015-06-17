@@ -18,10 +18,12 @@ setup(
     package_data = {'cognitiveatlas':['html/*.html','data/*.csv']},
 
     # Details
-    url="http://www.cognitiveatlas.org",
+    url="https://github.com/CognitiveAtlas/cogat-python",
 
-    license="LICENSE.txt",
-    description="python wrapper for the cognitive atlas RESTful API",
+    license="MIT",
+    description="python wrapper for the cognitive atlas (cognitiveatlas.org) RESTful API",
+
+    keywords='cogniive atlas cognition behavioral paradigm ontology',
 
     install_requires = ["pandas"]
 
