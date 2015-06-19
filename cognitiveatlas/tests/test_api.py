@@ -17,28 +17,28 @@ def test_concepts():
     contrast_id = "cnt_5299143fed521"
 
     # concept_id
-    result = get_concept(concept_id=concept_id)
-    assert_equal(result.json[0]["term_text"],concept_name)
+    result = get_concept(id=concept_id)
+    assert_equal(result.json[0]["name"],concept_name)
 
     # concept_name
-    result = get_concept(concept_name=concept_name)
-    assert_equal(result.json[0]["trm_id"],concept_id)
+    result = get_concept(name=concept_name)
+    assert_equal(result.json[0]["id"],concept_id)
 
     # contrast_id
     result = get_concept(contrast_id=contrast_id)
-    assert_equal(result.json[0]["trm_id"],concept_id)
+    assert_equal(result.json[0]["id"],concept_id)
 
     # concept_id and concept_name
-    result = get_concept(concept_id=concept_id,concept_name=concept_name)
-    assert_equal(result.json[0]["term_text"],concept_name)
+    result = get_concept(id=concept_id,name=concept_name)
+    assert_equal(result.json[0]["name"],concept_name)
 
     # concept_id, and contrast_id
-    result = get_concept(concept_id=concept_id,contrast_id=contrast_id)
-    assert_equal(result.json[0]["term_text"],concept_name)
+    result = get_concept(id=concept_id,contrast_id=contrast_id)
+    assert_equal(result.json[0]["name"],concept_name)
 
     # concept_name and contrast_id
-    result = get_concept(concept_name=concept_name,contrast_id=contrast_id)
-    assert_equal(result.json[0]["trm_id"],concept_id)
+    result = get_concept(name=concept_name,contrast_id=contrast_id)
+    assert_equal(result.json[0]["id"],concept_id)
     
 
 '''Test search query'''
@@ -53,17 +53,17 @@ def test_task():
     task_name = "mixed gambles task"
 
     # task_id and task_name
-    result = get_task(task_id=task_id,task_name=task_name)
-    assert_equal(result.json[0]["term_type"],"task")
-    assert_equal(result.json[0]["trm_event_stamp"],"2010-10-06 21:46:50")
+    result = get_task(id=task_id,name=task_name)
+    assert_equal(result.json[0]["type"],"task")
+    assert_equal(result.json[0]["event_stamp"],"2010-10-06 21:46:50")
 
     # task_id
-    result = get_task(task_id=task_id)
-    assert_equal(result.json[0]["term_text"],task_name)
+    result = get_task(id=task_id)
+    assert_equal(result.json[0]["name"],task_name)
  
     # task_name
-    result = get_task(task_name=task_name)
-    assert_equal(result.json[0]["trm_id"],task_id)
+    result = get_task(name=task_name)
+    assert_equal(result.json[0]["id"],task_id)
 
 
 '''Test disorder queries'''
@@ -73,15 +73,15 @@ def test_disorder():
     disorder_name = "mood disorder"
 
     # disorder_id and disorder_name
-    result = get_disorder(disorder_id=disorder_id,disorder_name=disorder_name)
+    result = get_disorder(id=disorder_id,name=disorder_name)
     assert_equal(result.json[0]["name"],disorder_name)
     assert_equal(result.json[0]["is_a_fulltext"],"cognitive disorder")
     assert_equal(result.json[0]["event_stamp"],"2013-11-20 15:38:27")
 
     # disorder_id
-    result = get_disorder(disorder_id=disorder_id)
+    result = get_disorder(id=disorder_id)
     assert_equal(result.json[0]["name"],disorder_name)
  
     # disorder_name
-    result = get_disorder(disorder_name=disorder_name)
+    result = get_disorder(name=disorder_name)
     assert_equal(result.json[0]["id"],disorder_id)
