@@ -27,6 +27,5 @@ install:
  - cat requirements.txt | xargs -n 1 -L 1 -I{} pip install '{}'
 before_script:
 script: 
- - python continuous_integration/show-python-packages-versions.py
  - bash cognitiveatlas/tests/run_tests.sh $PWD/cognitiveatlas/tests $PWD
 
