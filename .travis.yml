@@ -25,7 +25,7 @@ install:
  - conda install --yes python=$TRAVIS_PYTHON_VERSION pandas
  - conda install --yes -c dan_blanchard python-coveralls
  - cat requirements.txt | xargs -n 1 -L 1 -I{} pip install '{}'
-before_script:
+ - pip install pandas
 script: 
  - bash cognitiveatlas/tests/run_tests.sh $PWD/cognitiveatlas/tests $PWD
 
