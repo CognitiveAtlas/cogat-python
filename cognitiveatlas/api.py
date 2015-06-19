@@ -32,8 +32,6 @@ search: Search Concepts, Theories, Assertions, Tasks, Task Batteries, and Disord
 
 query: the query to search for that will go across concepts, theories, tasks, and disorders.
 
-Example: http://cognitiveatlas.org/api/v-alpha/search?q=articulatory%20suppression
-
 """
 def search(query):
     result = DataJson("http://cognitiveatlas.org/api/%s/search?q=%s" %(apiversion,query.replace(" ","%20")))
@@ -45,18 +43,18 @@ def search(query):
 """
 concept: return one or more concepts
 
-concept_id - Return the specified Concept.
-concept_name - Return the specified Concept.
+id - Return the specified Concept.
+name - Return the specified Concept.
 contrast_id - Return all Concepts related to the specified Contrast.
 [no parameters] - Return all Concepts.
 
-Example: http://cognitiveatlas.org/api/v-alpha/concept?concept_id=trm_4a3fd79d096be
+Example: http://cognitiveatlas.org/api/v-alpha/concept?id=trm_4a3fd79d096be
 
 """
-def get_concept(concept_id=None,concept_name=None,contrast_id=None):
+def get_concept(id=None,name=None,contrast_id=None):
     base_url = "http://cognitiveatlas.org/api/%s/concept" %(apiversion)
-    parameters = {"concept_id":concept_id,
-                  "concept_name":concept_name,
+    parameters = {"id":id,
+                  "name":name,
                   "contrast_id":contrast_id}
     url = generate_url(base_url,parameters)
     result = DataJson(url)
@@ -67,15 +65,15 @@ def get_concept(concept_id=None,concept_name=None,contrast_id=None):
 """
 task: return one or more tasks
 
-task_id - Return the specified Task.
-task_name - Return the specified Task.
+id - Return the specified Task.
+name - Return the specified Task.
 [no parameters] - Return all Tasks with basic information only.
 
 """
-def get_task(task_id=None,task_name=None):
+def get_task(id=None,name=None):
     base_url = "http://cognitiveatlas.org/api/%s/task" %(apiversion)
-    parameters = {"task_id":task_id,
-                  "task_name":task_name}
+    parameters = {"id":id,
+                  "name":name}
     url = generate_url(base_url,parameters)
     result = DataJson(url)
     print result
@@ -85,15 +83,15 @@ def get_task(task_id=None,task_name=None):
 """
 disorder: return one or more disorders
 
-disorder_id - Return the specified Disorder.
-disorder_name - Return the specified Disorder.
+id - Return the specified Disorder.
+name - Return the specified Disorder.
 [no parameters] - Return all Disorders.
 
 """
-def get_disorder(disorder_id=None,disorder_name=None):
+def get_disorder(id=None,name=None):
     base_url = "http://cognitiveatlas.org/api/%s/disorder" %(apiversion)
-    parameters = {"disorder_id":disorder_id,
-                  "disorder_name":disorder_name}
+    parameters = {"id":id,
+                  "name":name}
     url = generate_url(base_url,parameters)
     result = DataJson(url)
     print result
