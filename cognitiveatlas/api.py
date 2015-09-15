@@ -144,16 +144,22 @@ def get_task_lookup(task_id=None):
 """
 get_contrast_lookup: return lookup table task id by contrast
 
-id - Return the specified Task.
+task_id - Return the specified Task.
+contrast_id - Return the specified contrasts
 [no parameters] - Return lookup with all Tasks.
 
 """
-def get_contrast_lookup(task_id=None):
+def get_contrast_lookup(task_id=None,contrast_id=None):
+    # We can only have either or
+    if task_id and contrast_id:
+        raise ValueError('You can specify task_id or contrast_id but not both!')
     task_lookup = get_task_lookup(task_id)
     contrast_lookup = dict()
     for task,contrasts in task_lookup.iteritems():
         for contrast in contrasts:
-            contrast_lookup[contrast["id"]] = task        
+            contrast_lookup[contrast["id"]] = task
+    if contrast_id:
+        return { key: contrast_lookup[key] for key in contrast_id }
     return contrast_lookup
 
 

@@ -12,13 +12,30 @@ from nose.tools import assert_true, assert_false
 '''Test concepts queries'''
 def test_lookups():
     print "### TESTING LOOKUPS:"
-    # get_concept_lookup uses get_task lookup
-    concept_lookup = get_contrast_lookup()
-    assert_true(len(concept_lookup)>1400)
 
     # Test for specific list of tasks
     task_id = [u'trm_4f244f46ebf58', u'trm_523c7a0a73cf5',
                u'trm_4ebd44cd88360', u'trm_4f24126c22011',
                u'trm_551f151f7347e']
-    lookup = get_conrast_lookup(task_id=task_id)
+    lookup = get_contrast_lookup(task_id=task_id)
     assert_true(len(concept_lookup)>20)
+
+    # Test for specific contrasts
+    contrast_ids = [u'cnt_523c7cf0ea7b4',u'cnt_553a64ea67841',
+                    u'cnt_553a664f97104',u'cnt_553a647ca67ed',
+                    u'cnt_553a64d23c393',u'cnt_523c7d0de6735']
+    lookup = get_contrast_lookup(contrast_id=contrast_ids)
+
+
+@raises(ValueError)
+def test_raises_type_error():
+    # Test for specific list of tasks
+    task_id = [u'trm_4f244f46ebf58', u'trm_523c7a0a73cf5',
+               u'trm_4ebd44cd88360', u'trm_4f24126c22011',
+               u'trm_551f151f7347e']
+
+    contrast_ids = [u'cnt_523c7cf0ea7b4',u'cnt_553a64ea67841',
+                    u'cnt_553a664f97104',u'cnt_553a647ca67ed',
+                    u'cnt_553a64d23c393',u'cnt_523c7d0de6735']
+
+    lookup = get_contrast_lookup(task_id=task_id,contrast_id=contrast_ids)
