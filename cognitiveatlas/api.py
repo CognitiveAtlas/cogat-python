@@ -114,6 +114,49 @@ def generate_url(base_url,parameters):
     return "%s?%s" %(base_url,arguments)
 
 
+"""
+get_task_lookup: return lookup table contrast by task id
+
+id - Return the specified Task.
+[no parameters] - Return lookup with all Tasks.
+
+"""
+def get_task_lookup(task_id=None):
+    if not task_id:
+        tasks = get_task().json
+    else:
+        tasks = list()
+        if isinstance(task_id,str):
+            task_id = [task_id]
+        for id in task_id:
+            tasks.append(get_task(id=id).json[0])
+    task_ids = [task["id"] for task in tasks]
+    task_lookup = dict()
+    for task in tasks:
+        task_details = get_task(id=task["id"])
+        if task_details.json[0]["contrasts"]:   
+            task_lookup[task["id"]] = task_details.json[0]["contrasts"]
+        else:
+            task_lookup[task["id"]] = []
+    return task_lookup
+
+
+"""
+get_contrast_lookup: return lookup table task id by contrast
+
+id - Return the specified Task.
+[no parameters] - Return lookup with all Tasks.
+
+"""
+def get_contrast_lookup(task_id=None):
+    task_lookup = get_task_lookup(task_id)
+    contrast_lookup = dict()
+    for task,contrasts in task_lookup.iteritems():
+        for contrast in contrasts:
+            contrast_lookup[contrast["id"]] = task        
+    return contrast_lookup
+
+
 """Match tasks and conditions and put into a data frame based on match columns.
 Tasks: seem to have tsk and trm ids, but they are unique.
 """ 
