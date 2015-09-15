@@ -7,7 +7,7 @@ Test lookup functions in API
 
 from numpy.testing import assert_array_equal, assert_almost_equal, assert_equal
 from cognitiveatlas.api import get_contrast_lookup
-from nose.tools import assert_true, assert_false
+from nose.tools import assert_true, assert_false, raises
 
 '''Test concepts queries'''
 def test_lookups():
