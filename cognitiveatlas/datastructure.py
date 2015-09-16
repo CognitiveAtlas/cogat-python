@@ -99,12 +99,12 @@ OUTPUT:
 
   id    parent  name
   1 none BASE                   # there is always a base node
-  2 1   MEMORY                  # high level concept groups
-  3 1   PERCEPTION              
-  4 2   WORKING MEMORY          # concepts
-  5 2   LONG TERM MEMORY
-  6 4   image1.nii.gz           # associated images (discovered by way of contrasts)
-  7 4   image2.nii.gz
+  trm_12345 1   MEMORY                  # high level concept groups
+  trm_23456 1   PERCEPTION              
+  trm_34567 trm_12345   WORKING MEMORY          # concepts
+  trm_56789 trm_12345   LONG TERM MEMORY
+  trm_67890 trm_34567   image1.nii.gz           # associated images (discovered by way of contrasts)
+  trm_78901 trm_34567   image2.nii.gz
 
 """
 
@@ -124,12 +124,12 @@ def concept_node_triples(image_dict=None,output_file="concept_node_triples.tsv",
             for relation in concept["relationships"]:
                 if relation["direction"] == "parent":
                     if relation["id"] in concept_lookup:
-                        parents.append(concept_lookup[relation["id"]])
+                        parents.append(relation["id"])
         if not parents:
-            make_node(concept_lookup[concept["id"]],concept["name"],"1",delim,filey)
+            make_node(concept["id"],concept["name"],"1",delim,filey)
         else:
             for parent in parents:    
-                make_node(concept_lookup[concept["id"]],
+                make_node(concept["id"],
                           concept["name"],parent,delim,filey)
 
     # Now add a node for each image
@@ -139,6 +139,7 @@ def concept_node_triples(image_dict=None,output_file="concept_node_triples.tsv",
             concepts_single = get_concept(contrast_id=conid).json
             for con in concepts_single:
                 for image_path in image_paths:
-                    node_id = make_node(node_id,image_path,concept_lookup[concept["id"]],delim,filey)
+                    make_node("node_%s" %node_id,image_path,concept["id"],delim,filey)
+                    node_id +=1
     filey.close()
     print "%s has been created." % output_file 
