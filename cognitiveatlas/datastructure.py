@@ -8,7 +8,7 @@ functions for working with the cognitive atlas!
 
 
 """
-from cognitiveatlas.api import get_contrast_lookup, filter_concepts, get_task_lookup, get_concept
+from cognitiveatlas.api import filter_concepts, get_concept
 import numpy as np
 import urllib2
 import string
@@ -39,50 +39,6 @@ def init_output_file(output_file,delim="\t"):
     filey.writelines("1%sNone%sBASE\n" %(delim,delim))
     return filey
 
-"""
-task_node_triples: Export a list of nodes, in triples, for a specified list of contrast ids.
-
-contrast_ids: a list of contrast ids (e.g., ["cnt_4decfedb91973"])
-
-OUTPUT:
-
-  id    parent  name
-  1 none BASE
-  2 1   RESPONSE_INHIBITION
-  3 1   RISK_SEEKING
-  4 2   DS000009
-  5 2   DS000008
-  6 3   DS000001
-  7 4   EXPLODE_4
-  8 4   ACCEPT_4
-
-"""
-
-def task_node_triples(contrast_ids,output_file="task_node_triples.tsv",delim="\t"):
-    if isinstance(contrast_ids,str):
-        contrast_ids = [contrast_ids]
-    contrast_lookup = get_contrast_lookup(contrast_id=contrast_ids)
-    task_ids = np.unique(contrast_lookup.values()).tolist()
-    task_lookup = get_task_lookup(task_id=task_ids)
-    # Prepare output file
-    filey = init_output_file(output_file,delim=delim)
-    # Create nodes for unique tasks
-    node_id = 2
-    # Remember parent node ids based on taskid
-    parents = dict()
-    for task_id in task_ids:
-        name = task_lookup[task_id]["name"]
-        parents[task_id] = node_id
-        node_id = make_node(node_id,name,1,delim,filey)
-    # Now create a node for each contrast
-    for contrast_id,task in contrast_lookup.iteritems():
-        parent = parents[task]
-        idx = [x for x in range(0,len(task_lookup[contrast_lookup[contrast_id]]["contrasts"])) if task_lookup[contrast_lookup[contrast_id]]["contrasts"][x]["id"] == contrast_id][0]
-        name = task_lookup[contrast_lookup[contrast_id]]["contrasts"][idx]["contrast_text"]
-        node_id = make_node(node_id,name,parent,delim,filey)
-    filey.close()
-    print "%s has been created." % output_file 
-
 
 """
 concept_node_triples: Export a list of nodes, in triples
@@ -108,6 +64,14 @@ OUTPUT:
 
 """
 
+def get_concept_categories():
+    concepts = filter_concepts()
+    category_lookup = {}
+    for concept in concepts:
+        category_lookup[concept["id"]] = {"category":str(concept["id_concept_class"])}
+    return category_lookup
+
+
 def concept_node_triples(image_dict=None,output_file="concept_node_triples.tsv",delim="\t"):
     concepts = filter_concepts()
     filey = init_output_file(output_file,delim=delim)
@@ -123,23 +87,28 @@ def concept_node_triples(image_dict=None,output_file="concept_node_triples.tsv",
         if "relationships" in concept:
             for relation in concept["relationships"]:
                 if relation["direction"] == "parent":
-                    if relation["id"] in concept_lookup:
-                        parents.append(relation["id"])
+                    # We can only use "kind of" otherwise we get circular reference
+                    if relation["relationship"] == "kind of":
+                        if relation["id"] in concept_lookup:
+                            parents.append(relation["id"])
         if not parents:
+            # make_node(node_id,name,parent,delim,file_obj):
             make_node(concept["id"],concept["name"],"1",delim,filey)
         else:
             for parent in parents:    
-                make_node(concept["id"],
-                          concept["name"],parent,delim,filey)
+                # make_node(node_id,name,parent,delim,file_obj):
+                make_node(concept["id"],concept["name"],parent,delim,filey)
 
-    # Now add a node for each image
+    # Now add an entry for each image / contrast, may be multiple for each image
     if image_dict:
         node_id = max(concept_lookup.values()) + 1
         for conid, image_paths in image_dict.iteritems():
             concepts_single = get_concept(contrast_id=conid).json
-            for con in concepts_single:
-                for image_path in image_paths:
-                    make_node("node_%s" %node_id,image_path,concept["id"],delim,filey)
-                    node_id +=1
+            for con in concepts_single: # The concept is the parent of the image
+                if con:
+                    for image_path in image_paths:
+                        # make_node(node_id,name,parent,delim,file_obj):
+                        make_node("node_%s" %node_id,image_path,con["id"],delim,filey)
+                        node_id +=1
     filey.close()
     print "%s has been created." % output_file 
