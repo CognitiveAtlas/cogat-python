@@ -49,7 +49,11 @@ def get_json(url):
 
 # Convert json to pandas data frame
 def get_df(myjson):
-    return pandas.DataFrame(myjson)
+    try:
+        df = pandas.DataFrame(myjson)
+    except:
+        df = []
+    return df
 
 # Load a json object
 def parse_json(myjson):

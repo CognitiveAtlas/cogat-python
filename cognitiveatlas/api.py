@@ -114,6 +114,7 @@ def generate_url(base_url,parameters):
     return "%s?%s" %(base_url,arguments)
 
 
+
 """
 get_task_lookup: return lookup table contrast by task id
 
@@ -122,7 +123,7 @@ id - Return the specified Task.
 
 """
 def get_task_lookup(task_id=None):
-    if not task_id:
+    if task_id == None:
         tasks = get_task().json
     else:
         tasks = list()
@@ -134,11 +135,13 @@ def get_task_lookup(task_id=None):
     task_lookup = dict()
     for task in tasks:
         task_details = get_task(id=task["id"])
-        if task_details.json[0]["contrasts"]:   
-            task_lookup[task["id"]] = task_details.json[0]["contrasts"]
+        if task_details.json[0]["contrasts"]:
+            t_single = {"contrasts":task_details.json[0]["contrasts"],"name":task_details.json[0]["name"]}   
+            task_lookup[task["id"]] = t_single
         else:
-            task_lookup[task["id"]] = []
+            task_lookup[task["id"]] = {"contrasts":[],"name":task_details.json[0]["name"]}
     return task_lookup
+
 
 
 """
@@ -161,6 +164,44 @@ def get_contrast_lookup(task_id=None,contrast_id=None):
     if contrast_id:
         return { key: contrast_lookup[key] for key in contrast_id }
     return contrast_lookup
+
+
+
+"""
+filter_concepts: return concepts json
+
+contrast_id - concepts will be obtained for specified contrast_ids
+concept_id - only return particular set of concepts
+[no parameters] - Return lookup with all concepts
+
+returns list of concepts
+
+"""
+def filter_concepts(concept_id=None,contrast_id=None):
+    # We can only have either or
+    if concept_id and contrast_id:
+        raise ValueError('You can specify contrast_id or concept_id but not both!')
+
+    # Get concepts by contrast ids
+    if contrast_id:
+        if isinstance(contrast_id,str):
+            contrast_id = [contrast_id]
+        concepts = []
+        for contrast in contrast_id:
+            concepts = concepts + get_concept(contrast_id=contrast).json
+
+    # Get concepts by concept ids
+    elif concept_id:
+        concepts = []
+        for concept in concept_id:
+            concepts = concepts + get_concept(id=concept).json
+
+    # Build entire tree
+    else:
+        concepts = get_concept().json
+
+    return concepts
+    
 
 
 """Match tasks and conditions and put into a data frame based on match columns.

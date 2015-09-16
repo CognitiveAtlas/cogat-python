@@ -26,6 +26,7 @@ def test_lookups():
                     u'cnt_553a64d23c393',u'cnt_523c7d0de6735']
     lookup = get_contrast_lookup(contrast_id=contrast_ids)
     assert_true(len(lookup)==6)
+    
 
 @raises(ValueError)
 def test_raises_type_error():
