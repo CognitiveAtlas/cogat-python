@@ -25,6 +25,6 @@ setup(
 
     keywords='cogniive atlas cognition behavioral paradigm ontology',
 
-    install_requires = ["pandas"]
+    install_requires = ["pandas", "future"]
 
 )

@@ -13,8 +13,12 @@ import os
 import json
 import errno
 import pandas
-import urllib2
-from urllib2 import Request, urlopen, HTTPError
+
+from future.standard_library import install_aliases
+install_aliases()
+
+from urllib.request import urlopen, Request
+from urllib.error import HTTPError
 
 # File operations 
 def mkdir_p(path):
@@ -28,7 +32,7 @@ def mkdir_p(path):
 def get_url(url):
   request = Request(url)
   response = urlopen(request)
-  return response.read()
+  return response.read().decode('utf-8')
 
 # Data Json (from file)
 def read_json_file(file_path):
@@ -45,7 +49,7 @@ def read_text_file(file_path):
 
 # Get raw json object
 def get_json(url):
-    return urllib2.urlopen(url).read()
+    return urlopen(url).read().decode('utf-8')
 
 # Convert json to pandas data frame
 def get_df(myjson):
@@ -59,7 +63,7 @@ def parse_json(myjson):
 class DataJson:
   """DataJson: internal class for storing json, accessed by NeuroVault Object"""
   def __init__(self,url):
-    print url
+    print(url)
     self.url = url
     self.txt = get_json(url)
     self.json = parse_json(self.txt) 
