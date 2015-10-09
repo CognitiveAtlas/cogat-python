@@ -11,7 +11,7 @@ from nose.tools import assert_true, assert_false
 
 '''Test concepts queries'''
 def test_concepts():
-    print "### TESTING CONCEPT QUERIES:"
+    print("### TESTING CONCEPT QUERIES:")
     concept_id = "trm_5022ef7599294"
     concept_name = "anxiety"
     contrast_id = "cnt_5299143fed521"
@@ -26,7 +26,8 @@ def test_concepts():
 
     # contrast_id
     result = get_concept(contrast_id=contrast_id)
-    assert_equal(result.json[0]["id"],concept_id)
+    assert_true(any(concept_id==obj["id"] for obj in result.json)
+    #assert_equal(result.json[0]["id"],concept_id)
 
     # concept_id and concept_name
     result = get_concept(id=concept_id,name=concept_name)
@@ -48,7 +49,7 @@ def search(query):
 
 '''Test task queries'''
 def test_task():
-    print "### TESTING TASK QUERIES:"
+    print("### TESTING TASK QUERIES:")
     task_id = "trm_4cacee4a1d875"
     task_name = "mixed gambles task"
 
@@ -68,7 +69,7 @@ def test_task():
 
 '''Test disorder queries'''
 def test_disorder():
-    print "### TESTING DISORDER QUERIES:"
+    print("### TESTING DISORDER QUERIES:")
     disorder_id = "dso_3324"
     disorder_name = "mood disorder"
 
