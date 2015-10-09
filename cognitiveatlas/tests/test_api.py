@@ -26,7 +26,7 @@ def test_concepts():
 
     # contrast_id
     result = get_concept(contrast_id=contrast_id)
-    assert_true(any(concept_id==obj["id"] for obj in result.json)
+    assert_true(any(concept_id==obj["id"] for obj in result.json))
     #assert_equal(result.json[0]["id"],concept_id)
 
     # concept_id and concept_name
