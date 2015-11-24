@@ -3,6 +3,7 @@ Getting Started
 
 Installation
 ------------
+
 ::
 
 	pip install cognitiveatlas
@@ -307,7 +308,7 @@ Example
  
 
 get_disorder
---------
+------------
 
 Return one or more disorders
 

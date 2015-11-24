@@ -54,17 +54,12 @@ def concept_node_triples(image_dict=None,output_file="concept_node_triples.tsv",
 
     :param image_dict [OPTIONAL]: dict
     a dictionary of [contrast_id:image_file] pairs, eg
+
+    ..note::
                       
          {"cnt_4decfedb91973":["image1.nii.gz","image2.nii.gz"]}
 
-    This will mean that the images in the list will be assigned to all concept nodes 
-    associated with the contrast specified. This allows for inference over the tree 
-    (forexample, some relationship with concept nodes that are parents of assigned 
-    nodes) 
-
-    Specifying an image dictionary will append the images as the base nodes of the 
-    tree. No image dictionary means that the base nodes will be the lowest level 
-    concepts.
+        This will mean that the images in the list will be assigned to all concept nodes associated with the contrast specified. This allows for inference over the tree (for example, some relationship with concept nodes that are parents of assigned nodes). Specifying an image dictionary will append the images as the base nodes of the tree. No image dictionary means that the base nodes will be the lowest level concepts.
  
     :param delim: str
         delimeter for output file, default is tab.
