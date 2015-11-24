@@ -24,7 +24,7 @@ Dependencies:
 
 
 Overview
------
+--------
 
 The Cognitive Atlas is an ontology, or a description of concepts, disorders, task paradigms, and associated contrasts and conditions known in cognitive neuroscience. A concept can be any kind of cognitive process related to emotion, language, executive control, action, attention, learning and memory, perception, social function, reasoning or decision making, or motivation.  A "task" is any kind of behavioral paradigm (assessment, survey, fMRI scanner task, etc.) that can be used to measure a concept. Associated with tasks are conditions (components that make up the task that may induce different cognitive processes) and contrasts (operations on conditions to summarize one or more conditions for the purposes of analyses, such as summing up a particular set of questions for an assessment to come up with a final score.) Finally, a disorder is a manifestation of symptoms that negatively impact daily functioning. We place "tasks," "concepts," and "disorders" together in the Cognitive Atlas because our (current) standard definition of disorders (the Diagnostic and Statistical Manual of Mental Disorders, or DSM-V) defines disorders based on abberrant cognitive processes and behaviors, which can be described by concepts in the atlas, and measured by tasks.
 
@@ -71,7 +71,7 @@ Output
 
 
 Example
-++++++++
++++++++
 
 ::
 
@@ -145,7 +145,7 @@ Parameters
 
 
 Output
-++++++++++
+++++++
 
 - concept_class: A category that the concept belongs in, one of
     - action
@@ -174,7 +174,7 @@ Output
 - id_user: the unique id for the user that created the concept
 
 Example
-++++++++
++++++++
 
 ::
 
