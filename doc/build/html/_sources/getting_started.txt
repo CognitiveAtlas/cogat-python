@@ -24,7 +24,7 @@ Dependencies:
 
 
 Overview
------
+--------
 
 The Cognitive Atlas is an ontology, or a description of concepts, disorders, task paradigms, and associated contrasts and conditions known in cognitive neuroscience. A concept can be any kind of cognitive process related to emotion, language, executive control, action, attention, learning and memory, perception, social function, reasoning or decision making, or motivation.  A "task" is any kind of behavioral paradigm (assessment, survey, fMRI scanner task, etc.) that can be used to measure a concept. Associated with tasks are conditions (components that make up the task that may induce different cognitive processes) and contrasts (operations on conditions to summarize one or more conditions for the purposes of analyses, such as summing up a particular set of questions for an assessment to come up with a final score.) Finally, a disorder is a manifestation of symptoms that negatively impact daily functioning. We place "tasks," "concepts," and "disorders" together in the Cognitive Atlas because our (current) standard definition of disorders (the Diagnostic and Statistical Manual of Mental Disorders, or DSM-V) defines disorders based on abberrant cognitive processes and behaviors, which can be described by concepts in the atlas, and measured by tasks.
 
@@ -71,7 +71,7 @@ Output
 
 
 Example
-++++++++
++++++++
 
 ::
 
@@ -145,7 +145,7 @@ Parameters
 
 
 Output
-++++++++++
+++++++
 
 - concept_class: A category that the concept belongs in, one of
     - action
@@ -163,31 +163,30 @@ Output
 - def_id_user: the user id that generated the definition
 - definition_text: the concept definition
 - id_concept_class: a unique identifier for the concept class
-- id_term: the concept term unique id
 - relationships: a list of ontological relationships
     - direction: the direction of the relationship in the ontology tree, either "parent" or "child"
     - id: the unique identifier of the related term
     - relationship: the kind of relationship, either "kind of" or "part of"
-- term_alias: an alias for the concept
-- term_text: the name of the concept
-- trm_event_stamp: the creation date and time of the concept
-- trm_id: the unique id for the concept
-- trm_id_user: the unique id for the user that created the concept
+- alias: an alias for the concept
+- name: the name of the concept
+- event_stamp: the creation date and time of the concept
+- id: the unique id for the concept
+- id_user: the unique id for the user that created the concept
 
 Example
-++++++++
++++++++
 
 ::
 
     from cognitiveatlas.api import get_concept
 
-    concept_id = "trm_5022ef7599294"
-    concept_name = "anxiety"
+    id = "trm_5022ef7599294"
+    name = "anxiety"
     contrast_id = "cnt_5299143fed521"
 
-    # concept_id
-    > result = get_concept(concept_id=concept_id)
-    http://cognitiveatlas.org/api/v-alpha/concept?concept_id=trm_5022ef7599294
+    # id
+    > result = get_concept(id=id)
+    http://cognitiveatlas.org/api/v-alpha/concept?id=trm_5022ef7599294
     Result Includes:<pandas:data frame><json:dict><txt:str><url:str>
 
 
@@ -196,22 +195,22 @@ An example of the json output:
 ::
 	
 	> result.json[0]
-	{u'concept_class': u'',
-	 u'def_event_stamp': u'2013-06-14 04:19:52',
-	 u'def_id': u'def_51ba99e738d7c',
-	 u'def_id_user': u'usr_51ba954cf0abe',
-	 u'definition_text': u'An aversive psychophysiological state characterized by fear, worry, or concern associated with current or impending threat often elicited by general and specific interoceptive or exteroceptive cues.',
-	 u'id_concept_class': u'ctp_C8',
-	 u'id_term': u'trm_5022ef7599294',
-	 u'relationships': [{u'direction': u'parent',
-	   u'id': u'trm_4a3fd79d0a17f',
-	   u'relationship': u'kind of'}],
-	 u'term_alias': u'',
-	 u'term_text': u'anxiety',
-	 u'term_type': u'concept',
-	 u'trm_event_stamp': u'2012-08-08 23:00:05',
-	 u'trm_id': u'trm_5022ef7599294',
-	 u'trm_id_user': u'usr_4f177506dde77'}
+	[{u'alias': u'',
+	  u'concept_class': u'',
+ 	 u'def_event_stamp': u'2013-06-14 04:19:52',
+ 	 u'def_id': u'def_51ba99e738d7c',
+ 	 u'def_id_user': u'usr_51ba954cf0abe',
+ 	 u'definition_text': u'An aversive psychophysiological state characterized by fear, worry, or concern associated with current or impending threat often elicited by general and specific interoceptive or exteroceptive cues.',
+ 	 u'event_stamp': u'2012-08-08 23:00:05',
+ 	 u'id': u'trm_5022ef7599294',
+ 	 u'id_concept_class': u'ctp_C8',
+ 	 u'id_user': u'usr_4f177506dde77',
+ 	 u'name': u'anxiety',
+	  u'relationships': [{u'direction': u'parent',
+ 	   u'id': u'trm_4a3fd79d0a17f',
+  	  u'relationship': u'kind of'}],
+ 	 u'type': u'concept'}]
+
 
 
 get_task
@@ -223,17 +222,18 @@ Return one or more tasks
 Parameters
 ++++++++++
 
-- task_id - Return the specified Task.
-- task_name - Return the specified Task.
+- id - Return the specified Task.
+- name - Return the specified Task.
 - [no parameters] - Return all Tasks with basic information only.
 
 Output
 ++++++
 
+- alias: an alias for the task
 - citation: a list of citations associated with the task, each including the following:
     - citation_authors
     - citation_comment
-    - citation_desc: the title of the publication
+    - citation_title: the title of the publication
     - citation_pmid: the pubmed id
     - citation_pubdate: date of publicatoin
     - citation_pubname: journal title
@@ -243,7 +243,6 @@ Output
     - event_stamp: date and time when citation was added
     - id: a unique identifier for the citation
     - id_user: the unique id of the user that added the citation
-- citation_matches
 - concept_class: if the task belongs under one of:
     - action
     - attention
@@ -264,8 +263,8 @@ Output
     - condition_text: the shorter name of the condition
     - event_stamp
     - id: a unique identifier for the condition
-    - id_term: the task unique identifier
     - id_user: the unique id of the user that created the condition
+- contrasts: contrasts associated with the task
 - def_event_stamp: the creation date and time for the definition
 - def_id: a unique identifier for the definition
 - def_id_user: the unique identifier of the user that defined the task
@@ -273,26 +272,24 @@ Output
 - definition_text: the task definition
 - discussion: user discussion
 - disorders: disorders associated with the task
+- event_stamp: the creation date and time for the task
 - external_datasets: external datasets associated with the task. Each has:
     - dataset_name
     - dataset_url
     - event_stamp
     - id
-    - id_term: the task unique id
     - id_user: the unique id of the user that added the dataset
-    - history: includes all (historical) versions of the fields already listed.
+- history: includes all (historical) versions of the fields already listed.
+- id: the unique id of the task
 - id_concept_class
-- id_term: the task unique id
+- id_user: the unique id of the user that generated the task
 - implementations: a list of implementations of the task
 - indicators: a list of indicators for the task
-- term_alias
-- term_text: the name of the task
-- term_type: should be "task" or "task_definition"
-- trm_event_stamp:
-- trm_id: the unique id of the task
-- trm_id_user: the unique id of the user that generated the task
+- name: the name of the task
+- type: should be "task" or "task_definition"
 - umark: the username that created the task
 - umarkdef: the username that created the definition
+
 
 Example
 +++++++
@@ -300,12 +297,12 @@ Example
 ::
 
 	from cognitiveatlas.api import get_task
-	task_id = "trm_4cacee4a1d875"
-	task_name = "mixed gambles task"
+	id = "trm_4cacee4a1d875"
+	name = "mixed gambles task"
 
-	# task_id and task_name
-	> result = get_task(task_id=task_id,task_name=task_name)
-	http://cognitiveatlas.org/api/v-alpha/task?task_name=mixed%20gambles%20task&task_id=trm_4cacee4a1d875
+	# id and name
+	> result = get_task(id=id,name=name)
+	http://cognitiveatlas.org/api/v-alpha/task?task_name=mixed%20gambles%20task&id=trm_4cacee4a1d875
 	Result Includes:<pandas:data frame><json:dict><txt:str><url:str>
  
 
@@ -327,28 +324,42 @@ Parameters
 Output
 ++++++
 
+- alt_id: an alternative id
+- def: a definition of the disorder
+- event_stamp: the date and time of creation
+- flag_for_curator: curation status
+- id: the unique id for the disorder
+- id_protocol: the ontology or standard from which the id is derived
+- id_user: the user id that added the disorder
+- is_a: the parent term id for the disorder
+- is_a_fulltext: the parent term name
+- is_a_protocol: the ontology or standard from which the id is derived
+- name: the disorder name
+- synonyms: synonyms
+    - doid
+    - spec
+    - synonym
+    - tid
+- tid
+- type
+- xrefs: references from other standard/ontologies for the term
+    - doid: unique identifier
+    - protocol: ontology or standard
+    - tid
+    - xref
+
 
 Example
 +++++++
 
 ::
 
-	from cognitiveatlas.api import get_task
+	from cognitiveatlas.api import get_disorder
+	id = "dso_3324"
+	name = "mood disorder"
 
+	# id and name
+	> result = get_disorder(id=id,name=name)
+	http://cognitiveatlas.org/api/v-alpha/disorder?name=mood%20disorder&id=dso_3324
+	Result Includes:<pandas:data frame><json:dict><txt:str><url:str>
 
-   disorder_id = "dso_3324"
-    disorder_name = "mood disorder"
-
-    # disorder_id and disorder_name
-    result = get_disorder(disorder_id=disorder_id,disorder_name=disorder_name)
-    assert_equal(result.json[0]["name"],disorder_name)
-    assert_equal(result.json[0]["is_a_fulltext"],"cognitive disorder")
-    assert_equal(result.json[0]["event_stamp"],"2013-11-20 15:38:27")
-
-    # disorder_id
-    result = get_disorder(disorder_id=disorder_id)
-    assert_equal(result.json[0]["name"],disorder_name)
- 
-    # disorder_name
-    result = get_disorder(disorder_name=disorder_name)
-    assert_equal(result.json[0]["id"],disorder_id)
