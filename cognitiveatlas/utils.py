@@ -18,30 +18,29 @@ from urllib2 import Request, urlopen, HTTPError
 
 # File operations 
 def mkdir_p(path):
-  try:
-      os.makedirs(path)
-  except OSError as exc: # Python >2.5
-    if exc.errno == errno.EEXIST and os.path.isdir(path):
-      pass
-    else: raise
+    try:
+        os.makedirs(path)
+    except OSError as exc: # Python >2.5
+        if exc.errno == errno.EEXIST and os.path.isdir(path):
+            pass
+        else: raise
 
 def get_url(url):
-  request = Request(url)
-  response = urlopen(request)
-  return response.read()
+    request = Request(url)
+    response = urlopen(request)
+    return response.read()
 
 # Data Json (from file)
 def read_json_file(file_path):
-  filey = read_text_file(file_path)
-  return json.loads(filey)
+    filey = read_text_file(file_path)
+    return json.loads(filey)
 
 # Text (from file)
 def read_text_file(file_path):
-  filey = open(file_path,'rb')
-  tmp = filey.readlines()
-  filey.close()
-  return "\n".join(tmp)
-
+    filey = open(file_path,'rb')
+    tmp = filey.readlines()
+    filey.close()
+    return "\n".join(tmp)
 
 # Get raw json object
 def get_json(url):
