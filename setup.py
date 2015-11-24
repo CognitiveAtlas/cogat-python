@@ -1,15 +1,11 @@
 from setuptools import setup, find_packages
 
-# Read from requirements.txt
-reqs = [line.strip() for line in open('requirements.txt').readlines()]
-requirements = list(filter(None, reqs))
-
 setup(
     # Application name:
     name="cognitiveatlas",
 
     # Version number (initial):
-    version="0.1.1",
+    version="0.1.2",
 
     # Application author details:
     author="Poldracklab",
@@ -29,6 +25,6 @@ setup(
 
     keywords='cogniive atlas cognition behavioral paradigm ontology',
 
-    install_requires = requirements
+    install_requires = ["numpy","pandas","future"]
 
 )
