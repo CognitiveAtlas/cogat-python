@@ -14,7 +14,6 @@ Contents:
    :maxdepth: 2
 
    getting_started
-   modules
    GitHub repository <https://github.com/CognitiveAtlas/cogat-python>
 
 
