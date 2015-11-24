@@ -10,10 +10,7 @@ functions for working with the cognitive atlas!
 """
 from cognitiveatlas.utils import DataJson
 import cognitiveatlas.utils
-import numpy as np
-import urllib2
 import string
-import urllib
 import pandas
 import json
 import os
@@ -37,7 +34,7 @@ def search(query):
     '''
 
     result = DataJson("http://cognitiveatlas.org/api/%s/search?q=%s" %(apiversion,query.replace(" ","%20")))
-    print result
+    print(result)
     return result
 
 
@@ -64,7 +61,7 @@ def get_concept(id=None,name=None,contrast_id=None):
                   "contrast_id":contrast_id}
     url = generate_url(base_url,parameters)
     result = DataJson(url)
-    print result
+    print(result)
     return result
 
 
@@ -88,7 +85,7 @@ def get_task(id=None,name=None):
                   "name":name}
     url = generate_url(base_url,parameters)
     result = DataJson(url)
-    print result
+    print(result)
     return result
 
 
@@ -108,7 +105,7 @@ def get_disorder(id=None,name=None):
                   "name":name}
     url = generate_url(base_url,parameters)
     result = DataJson(url)
-    print result
+    print(result)
     return result
 
 
@@ -123,7 +120,8 @@ def generate_url(base_url,parameters):
     '''
 
     values = [x.replace(" ","%20") for x in parameters.values() if x]
-    keys = [key for key,val in parameters.iteritems() if val]
+    #keys = [key for key,val in parameters.iteritems() if val]
+    keys = [key for (key, value) in parameters.items() if value]
     arguments = ["%s=%s" %(keys[i],values[i]) for i in range(len(values))]
     arguments = "&".join(arguments)
     return "%s?%s" %(base_url,arguments)

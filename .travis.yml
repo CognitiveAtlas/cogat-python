@@ -7,7 +7,7 @@ virtualenv:
   system_site_packages: true
 
 install:
-    - pip install pandas
+    - pip install -r requirements.txt
     - python setup.py install
 
 env:
