@@ -1,8 +1,6 @@
 # Cognitive Atlas Python API
 
-![https://travis-ci.org/CognitiveAtlas/cogat-python.svg?branch=master](https://travis-ci.org/CognitiveAtlas/cogat-python.svg?branch=master)
-
-*in development*
+[![Circle CI](https://circleci.com/gh/CognitiveAtlas/cogat-python.svg?style=svg)](https://circleci.com/gh/CognitiveAtlas/cogat-python)
 
 This API gives python access to the RESTful API in the Cognitive Atlas (alpha).
 
