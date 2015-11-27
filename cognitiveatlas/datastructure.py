@@ -34,7 +34,7 @@ def make_node(node_id,name,parent,delim,file_obj):
         return node_id
 
 def init_output_file(output_file,delim="\t"):
-    filey = open(output_file,"wb")
+    filey = open(output_file,"w")
     filey.writelines("id%sparent%sname\n" %(delim,delim))
     filey.writelines("1%sNone%sBASE\n" %(delim,delim))
     return filey
