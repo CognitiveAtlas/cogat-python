@@ -74,17 +74,17 @@ def concept_node_triples(image_dict=None,output_file="concept_node_triples.tsv",
         trm_78901 trm_34567   image2.nii.gz
 
     '''
-
     concepts = filter_concepts()
     if save_to_file == True:
         filey = init_output_file(output_file,delim=delim)
     df = pandas.DataFrame(columns=["id","parent","name"])
-    df.loc[1] = ["1","None","BASE"]
+    df.loc[0] = ["1","None","BASE"]
 
     # Generate a unique id for each concept
     concept_lookup = dict()
     for c in range(0,len(concepts)):
         concept_lookup[concepts[c]["id"]] = c+2
+    count=1
 
     # Generate tree for main concepts
     for concept in concepts:
@@ -100,13 +100,15 @@ def concept_node_triples(image_dict=None,output_file="concept_node_triples.tsv",
             # make_node(node_id,name,parent,delim,file_obj):
             if save_to_file == True:
                 make_node(concept["id"],concept["name"],"1",delim,filey)
-            df.loc[concept["id"]] = [concept["id"],concept["name"],"1"]
+            df.loc[count] = [concept["id"],"1",concept["name"]]
+            count+=1
         else:
             for parent in parents:    
                 # make_node(node_id,name,parent,delim,file_obj):
                 if save_to_file == True:
                     make_node(concept["id"],concept["name"],parent,delim,filey)
-                df.loc[concept["id"]] = [concept["id"],concept["name"],parent]
+                df.loc[count] = [concept["id"],parent,concept["name"]]
+                count+=1
 
     # Now add an entry for each image / contrast, may be multiple for each image
     if image_dict:
@@ -119,9 +121,9 @@ def concept_node_triples(image_dict=None,output_file="concept_node_triples.tsv",
                         # make_node(node_id,name,parent,delim,file_obj):
                         if save_to_file == True:
                             make_node("node_%s" %node_id,image_path,con["id"],delim,filey)
-                        df.loc["node_%s" %node_id] = ["node_%s" %node_id,image_path,con["id"]]
+                        df.loc[count] = ["node_%s" %node_id,con["id"],image_path]
                         node_id +=1
-
+                        count+=1
     if save_to_file == True:
         filey.close()
         print "%s has been created." % output_file 
