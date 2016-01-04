@@ -33,7 +33,7 @@ def search(query,silent=False):
 
     '''
 
-    result = DataJson("http://cognitiveatlas.org/api/%s/search?q=%s" %(apiversion,query.replace(" ","%20")))
+    result = DataJson("http://cognitiveatlas.org/api/%s/search?q=%s" %(apiversion,query.replace(" ","%20")),silent=silent)
     if not silent:
         print(result)
     return result
@@ -61,7 +61,7 @@ def get_concept(id=None,name=None,contrast_id=None,silent=False):
                   "name":name,
                   "contrast_id":contrast_id}
     url = generate_url(base_url,parameters)
-    result = DataJson(url)
+    result = DataJson(url,silent=silent)
     if not silent:
         print(result)
     return result
@@ -86,7 +86,7 @@ def get_task(id=None,name=None,silent=False):
     parameters = {"id":id,
                   "name":name}
     url = generate_url(base_url,parameters)
-    result = DataJson(url)
+    result = DataJson(url,silent=silent)
     if not silent:
         print(result)
     return result
@@ -107,7 +107,7 @@ def get_disorder(id=None,name=None,silent=False):
     parameters = {"id":id,
                   "name":name}
     url = generate_url(base_url,parameters)
-    result = DataJson(url)
+    result = DataJson(url,silent=silent)
     if not silent:
         print(result)
     return result

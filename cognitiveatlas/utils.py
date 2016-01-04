@@ -65,8 +65,9 @@ def parse_json(myjson):
 # Data Json Object (from URL)
 class DataJson:
   """DataJson: internal class for storing json, accessed by NeuroVault Object"""
-  def __init__(self,url):
-    print(url)
+  def __init__(self,url,silent=False):
+    if silent==False:
+        print(url)
     self.url = url
     self.txt = get_json(url)
     self.json = parse_json(self.txt) 
