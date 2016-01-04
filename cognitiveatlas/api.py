@@ -24,7 +24,7 @@ __license__ = "BSD"
 apiversion = "v-alpha"
 
 # Wrapper for the "search" query
-def search(query):
+def search(query,silent=False):
     '''search 
     Search Concepts, Theories, Assertions, Tasks, Task Batteries, and Disorders for a given keyword.
 
@@ -34,12 +34,13 @@ def search(query):
     '''
 
     result = DataJson("http://cognitiveatlas.org/api/%s/search?q=%s" %(apiversion,query.replace(" ","%20")))
-    print(result)
+    if not silent:
+        print(result)
     return result
 
 
 
-def get_concept(id=None,name=None,contrast_id=None):
+def get_concept(id=None,name=None,contrast_id=None,silent=False):
     '''get_concept
     return one or more concepts
 
@@ -61,11 +62,12 @@ def get_concept(id=None,name=None,contrast_id=None):
                   "contrast_id":contrast_id}
     url = generate_url(base_url,parameters)
     result = DataJson(url)
-    print(result)
+    if not silent:
+        print(result)
     return result
 
 
-def get_task(id=None,name=None):
+def get_task(id=None,name=None,silent=False):
     '''get_task
     return one or more tasks
 
@@ -85,11 +87,12 @@ def get_task(id=None,name=None):
                   "name":name}
     url = generate_url(base_url,parameters)
     result = DataJson(url)
-    print(result)
+    if not silent:
+        print(result)
     return result
 
 
-def get_disorder(id=None,name=None):
+def get_disorder(id=None,name=None,silent=False):
     '''get_disorder
     return one or more disorders
 
@@ -105,7 +108,8 @@ def get_disorder(id=None,name=None):
                   "name":name}
     url = generate_url(base_url,parameters)
     result = DataJson(url)
-    print(result)
+    if not silent:
+        print(result)
     return result
 
 

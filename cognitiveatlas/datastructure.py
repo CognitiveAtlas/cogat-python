@@ -27,7 +27,7 @@ apiversion = "v-alpha"
 
 # Functions to work with nodes
 
-def make_node(node_id,name,parent,delim,file_obj):
+def make_node(node_id,name,parent,delim,file_obj=None):
     file_obj.writelines("%s%s%s%s%s\n" %(node_id,delim,parent,delim,name))
     if isinstance(node_id,int):
         node_id += 1
@@ -48,24 +48,19 @@ def get_concept_categories():
     return category_lookup
 
 
-def concept_node_triples(image_dict=None,output_file="concept_node_triples.tsv",delim="\t"):
+def concept_node_triples(image_dict=None,output_file="concept_node_triples.tsv",delim="\t",save_to_file=True):
     '''concept_node_triples
     Export a list of nodes, in triples
-
+    :param delim: delimiter for output file
+    :param save_to_file: boolean, False will return pandas data frame
     :param image_dict [OPTIONAL]: dict
     a dictionary of [contrast_id:image_file] pairs, eg
-
     ..note::
-                      
          {"cnt_4decfedb91973":["image1.nii.gz","image2.nii.gz"]}
-
         This will mean that the images in the list will be assigned to all concept nodes associated with the contrast specified. This allows for inference over the tree (for example, some relationship with concept nodes that are parents of assigned nodes). Specifying an image dictionary will append the images as the base nodes of the tree. No image dictionary means that the base nodes will be the lowest level concepts.
- 
     :param delim: str
         delimeter for output file, default is tab.
-
     :param output_file: path
-
     ..note::
          Output looks like
 
@@ -81,13 +76,16 @@ def concept_node_triples(image_dict=None,output_file="concept_node_triples.tsv",
     '''
 
     concepts = filter_concepts()
-    filey = init_output_file(output_file,delim=delim)
+    if save_to_file == True:
+        filey = init_output_file(output_file,delim=delim)
+    df = pandas.DataFrame(columns=["id","parent","name"])
+    df.loc[1] = ["1","None","BASE"]
 
     # Generate a unique id for each concept
     concept_lookup = dict()
     for c in range(0,len(concepts)):
         concept_lookup[concepts[c]["id"]] = c+2
-    
+
     # Generate tree for main concepts
     for concept in concepts:
         parents = []
@@ -100,11 +98,15 @@ def concept_node_triples(image_dict=None,output_file="concept_node_triples.tsv",
                             parents.append(relation["id"])
         if not parents:
             # make_node(node_id,name,parent,delim,file_obj):
-            make_node(concept["id"],concept["name"],"1",delim,filey)
+            if save_to_file == True:
+                make_node(concept["id"],concept["name"],"1",delim,filey)
+            df.loc[concept["id"]] = [concept["id"],concept["name"],"1"]
         else:
             for parent in parents:    
                 # make_node(node_id,name,parent,delim,file_obj):
-                make_node(concept["id"],concept["name"],parent,delim,filey)
+                if save_to_file == True:
+                    make_node(concept["id"],concept["name"],parent,delim,filey)
+                df.loc[concept["id"]] = [concept["id"],concept["name"],parent]
 
     # Now add an entry for each image / contrast, may be multiple for each image
     if image_dict:
@@ -115,7 +117,12 @@ def concept_node_triples(image_dict=None,output_file="concept_node_triples.tsv",
                 if con:
                     for image_path in image_paths:
                         # make_node(node_id,name,parent,delim,file_obj):
-                        make_node("node_%s" %node_id,image_path,con["id"],delim,filey)
+                        if save_to_file == True:
+                            make_node("node_%s" %node_id,image_path,con["id"],delim,filey)
+                        df.loc["node_%s" %node_id] = ["node_%s" %node_id,image_path,con["id"]]
                         node_id +=1
-    filey.close()
-    print "%s has been created." % output_file 
+
+    if save_to_file == True:
+        filey.close()
+        print "%s has been created." % output_file 
+    return df
