@@ -48,19 +48,21 @@ def get_concept_categories():
     return category_lookup
 
 
-def concept_node_triples(image_dict=None,output_file="concept_node_triples.tsv",delim="\t",save_to_file=True):
+def concept_node_triples(image_dict=None,output_file="concept_node_triples.tsv",
+                         delim="\t",save_to_file=True,lookup_key_type="contrast"):
     '''concept_node_triples
     Export a list of nodes, in triples
     :param delim: delimiter for output file
     :param save_to_file: boolean, False will return pandas data frame
     :param image_dict [OPTIONAL]: dict
-    a dictionary of [contrast_id:image_file] pairs, eg
+    a dictionary of [term_id:image_file] pairs, eg
     ..note::
          {"cnt_4decfedb91973":["image1.nii.gz","image2.nii.gz"]}
-        This will mean that the images in the list will be assigned to all concept nodes associated with the contrast specified. This allows for inference over the tree (for example, some relationship with concept nodes that are parents of assigned nodes). Specifying an image dictionary will append the images as the base nodes of the tree. No image dictionary means that the base nodes will be the lowest level concepts.
+        This will mean that the images in the list will be assigned to all concept nodes associated with the term specified. This allows for inference over the tree (for example, some relationship with concept nodes that are parents of assigned nodes). Specifying an image dictionary will append the images as the base nodes of the tree. No image dictionary means that the base nodes will be the lowest level concepts. You must specify the term type as "contrast" or "task" (see lookup_key_type)
     :param delim: str
         delimeter for output file, default is tab.
     :param output_file: path
+    :param lookup_key_type: the term type used as a key in the image_dict. Either "task" or "contrast" (default is contrast)
     ..note::
          Output looks like
 
@@ -114,16 +116,27 @@ def concept_node_triples(image_dict=None,output_file="concept_node_triples.tsv",
     if image_dict:
         node_id = max(concept_lookup.values()) + 1
         for conid, image_paths in image_dict.iteritems():
-            concepts_single = get_concept(contrast_id=conid).json
-            for con in concepts_single: # The concept is the parent of the image
-                if con:
-                    for image_path in image_paths:
-                        # make_node(node_id,name,parent,delim,file_obj):
-                        if save_to_file == True:
-                            make_node("node_%s" %node_id,image_path,con["id"],delim,filey)
-                        df.loc[count] = ["node_%s" %node_id,con["id"],image_path]
-                        node_id +=1
-                        count+=1
+            if lookup_key_type == "contrast":
+                concepts_single = get_concept(contrast_id=conid).json
+                key_id = "id"
+            else:
+                concepts_single = get_task(id=conid).json[0]
+                if "concepts" in concepts_single.keys():
+                    concepts_single = concepts_single["concepts"]
+                else:
+                    concepts_single = None
+                key_id = "concept_id"
+
+            if concepts_single != None:  
+                for con in concepts_single: # The concept is the parent of the image
+                    if con:
+                        for image_path in image_paths:
+                            # make_node(node_id,name,parent,delim,file_obj):
+                            if save_to_file == True:
+                                make_node("node_%s" %node_id,image_path,con[key_id],delim,filey)
+                            df.loc[count] = ["node_%s" %node_id,con[key_id],image_path]
+                            node_id +=1
+                            count+=1
     if save_to_file == True:
         filey.close()
         print "%s has been created." % output_file 
