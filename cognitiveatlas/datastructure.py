@@ -8,7 +8,7 @@ functions for working with the cognitive atlas!
 
 
 """
-from cognitiveatlas.api import filter_concepts, get_concept
+from cognitiveatlas.api import filter_concepts, get_concept, get_task
 import numpy as np
 import urllib2
 import string
