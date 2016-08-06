@@ -10,9 +10,9 @@ functions for working with the cognitive atlas!
 """
 from cognitiveatlas.api import filter_concepts, get_concept, get_task
 import numpy as np
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 import string
-import urllib
+import urllib.request, urllib.parse, urllib.error
 import pandas
 import json
 import os
@@ -115,13 +115,13 @@ def concept_node_triples(image_dict=None,output_file="concept_node_triples.tsv",
     # Now add an entry for each image / contrast, may be multiple for each image
     if image_dict:
         node_id = max(concept_lookup.values()) + 1
-        for conid, image_paths in image_dict.iteritems():
+        for conid, image_paths in image_dict.items():
             if lookup_key_type == "contrast":
                 concepts_single = get_concept(contrast_id=conid).json
                 key_id = "id"
             else:
                 concepts_single = get_task(id=conid).json[0]
-                if "concepts" in concepts_single.keys():
+                if "concepts" in list(concepts_single.keys()):
                     concepts_single = concepts_single["concepts"]
                 else:
                     concepts_single = None
@@ -139,5 +139,5 @@ def concept_node_triples(image_dict=None,output_file="concept_node_triples.tsv",
                             count+=1
     if save_to_file == True:
         filey.close()
-        print "%s has been created." % output_file 
+        print("%s has been created." % output_file) 
     return df
