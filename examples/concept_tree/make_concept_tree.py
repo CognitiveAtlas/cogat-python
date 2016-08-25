@@ -8,15 +8,6 @@ import pandas
 # that we are interested in.
 ######################################################################
 
-# Contrasts we are interested in (these happen to be associated with this image) http://neurovault.org/images/109/
-contrasts =["trm_567982752ff4a","trm_4a3fd79d0afcf","trm_5534111a8bc96","trm_557b48a224b95",
-            "trm_557b4a81a4a17","trm_4a3fd79d0b64e","trm_4a3fd79d0a33b","trm_557b4a7315f1b",
-            "trm_4a3fd79d0af71","trm_557b4b56de455","trm_557b4add1837e"]
-
-# Concepts we are interested in (just random)
-
-
-
 ## STEP 1: GENERATE TRIPLES DATA STRUCTURE
 # This is a data structure that looks like this - showing id of the node (column 1), parent id (column 2)
 # and then the name
