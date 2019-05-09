@@ -124,7 +124,6 @@ def generate_url(base_url,parameters):
     '''
 
     values = [x.replace(" ","%20") for x in list(parameters.values()) if x]
-    #keys = [key for key,val in parameters.iteritems() if val]
     keys = [key for (key, value) in list(parameters.items()) if value]
     arguments = ["%s=%s" %(keys[i],values[i]) for i in range(len(values))]
     arguments = "&".join(arguments)

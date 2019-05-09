@@ -2,87 +2,94 @@
 
 """
 Test core functions of Cognitive Atlas python API wrapper
-
 """
 
-from numpy.testing import assert_array_equal, assert_almost_equal, assert_equal
-from cognitiveatlas.api import get_concept, search, get_task, get_disorder
-from nose.tools import assert_true, assert_false
+import unittest
+from cognitiveatlas.api import ( 
+    get_concept, 
+    search,
+    get_task, 
+    get_disorder
+)
 
-'''Test concepts queries'''
-def test_concepts():
-    print("### TESTING CONCEPT QUERIES:")
-    concept_id = "trm_5022ef7599294"
-    concept_name = "anxiety"
-    contrast_id = "cnt_5299143fed521"
+class TestAPI(unittest.TestCase):
 
-    # concept_id
-    result = get_concept(id=concept_id)
-    assert_equal(result.json[0]["name"],concept_name)
+    def test_concepts(self):
+        '''Test concepts queries'''
+        print("### TESTING CONCEPT QUERIES:")
+        concept_id = "trm_5022ef7599294"
+        concept_name = "anxiety"
+        contrast_id = "cnt_5299143fed521"
 
-    # concept_name
-    result = get_concept(name=concept_name)
-    assert_equal(result.json[0]["id"],concept_id)
+        # concept_id
+        result = get_concept(id=concept_id)
+        self.assertEqual(result.json["name"],concept_name)
 
-    # contrast_id
-    result = get_concept(contrast_id=contrast_id)
-    assert_true(any(concept_id==obj["id"] for obj in result.json))
-    #assert_equal(result.json[0]["id"],concept_id)
+        # concept_name
+        result = get_concept(name=concept_name)
+        self.assertEqual(result.json["id"],concept_id)
 
-    # concept_id and concept_name
-    result = get_concept(id=concept_id,name=concept_name)
-    assert_equal(result.json[0]["name"],concept_name)
+        # contrast_id
+        result = get_concept(contrast_id=contrast_id)
+        self.assertTrue(any(concept_id==obj["id"] for obj in result.json))
+       
+        # concept_id and concept_name
+        result = get_concept(id=concept_id,name=concept_name)
+        self.assertEqual(result.json["name"],concept_name)
 
-    # concept_id, and contrast_id
-    result = get_concept(id=concept_id,contrast_id=contrast_id)
-    assert_equal(result.json[0]["name"],concept_name)
+        # concept_id, and contrast_id
+        result = get_concept(id=concept_id,contrast_id=contrast_id)
+        self.assertEqual(result.json["name"],concept_name)
 
-    # concept_name and contrast_id
-    result = get_concept(name=concept_name,contrast_id=contrast_id)
-    assert_equal(result.json[0]["id"],concept_id)
-    
+        # concept_name and contrast_id
+        result = get_concept(name=concept_name,contrast_id=contrast_id)
+        self.assertEqual(result.json["id"],concept_id)
 
-'''Test search query'''
-def search(query):
-    result = search(query="anxiety")
-    assert_true(len(result.json)>20)
+    def test_search(self):
+        '''Test search query'''
+        result = search(query="anxiety")
+        self.assertTrue(len(result.json)>20)
 
-'''Test task queries'''
-def test_task():
-    print("### TESTING TASK QUERIES:")
-    task_id = "trm_4cacee4a1d875"
-    task_name = "mixed gambles task"
+    def test_task(self):
+        '''Test task queries'''
 
-    # task_id and task_name
-    result = get_task(id=task_id,name=task_name)
-    assert_equal(result.json[0]["type"],"task")
-    assert_equal(result.json[0]["event_stamp"],"2010-10-06 21:46:50")
+        print("### TESTING TASK QUERIES:")
+        task_id = "trm_4cacee4a1d875"
+        task_name = "mixed gambles task"
 
-    # task_id
-    result = get_task(id=task_id)
-    assert_equal(result.json[0]["name"],task_name)
+        # task_id and task_name
+        result = get_task(id=task_id,name=task_name)
+        self.assertEqual(result.json["type"],"task")
+
+        # task_id
+        result = get_task(id=task_id)
+        self.assertEqual(result.json["name"],task_name)
  
-    # task_name
-    result = get_task(name=task_name)
-    assert_equal(result.json[0]["id"],task_id)
+        # task_name
+        result = get_task(name=task_name)
+        self.assertEqual(result.json["id"],task_id)
 
+    def test_disorder(self):
+        '''Test disorder queries'''
 
-'''Test disorder queries'''
-def test_disorder():
-    print("### TESTING DISORDER QUERIES:")
-    disorder_id = "dso_3324"
-    disorder_name = "mood disorder"
+        print("### TESTING DISORDER QUERIES:")
+        disorder_id = "dso_3324"
+        disorder_name = "mood disorder"
 
-    # disorder_id and disorder_name
-    result = get_disorder(id=disorder_id,name=disorder_name)
-    assert_equal(result.json[0]["name"],disorder_name)
-    assert_equal(result.json[0]["is_a_fulltext"],"cognitive disorder")
-    assert_equal(result.json[0]["event_stamp"],"2013-11-20 15:38:27")
+        # disorder_id and disorder_name
+        result = get_disorder(id=disorder_id,name=disorder_name)
+        print(result)
+        self.assertEqual(result.json["name"],disorder_name)
+        print(result.json)
+        self.assertEqual(result.json["type"],"disorder")
 
-    # disorder_id
-    result = get_disorder(id=disorder_id)
-    assert_equal(result.json[0]["name"],disorder_name)
+        # disorder_id
+        result = get_disorder(id=disorder_id)
+        self.assertEqual(result.json["name"],disorder_name)
  
-    # disorder_name
-    result = get_disorder(name=disorder_name)
-    assert_equal(result.json[0]["id"],disorder_id)
+        # disorder_name
+        result = get_disorder(name=disorder_name)
+        self.assertEqual(result.json["id"],disorder_id)
+
+if __name__ == '__main__':
+    unittest.main()
