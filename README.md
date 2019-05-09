@@ -19,5 +19,5 @@ Read our complete [documentation](https://cogat-python.readthedocs.org) for gett
 If you need cognitiveatlas specifically for python 2, the last released version was 0.0.18:
 
 ```bash
-$ pip install cognitiveatlas==0.0.18
+$ pip install cognitiveatlas==0.0.8
 ```
