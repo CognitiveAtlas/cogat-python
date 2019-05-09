@@ -8,7 +8,7 @@ workflows:
           filters:
             branches:
               ignore: master
-      - test--python-2:
+      - test-python-2:
           filters:
             branches:
               ignore: master
