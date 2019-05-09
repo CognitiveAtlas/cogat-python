@@ -30,6 +30,7 @@ install_cognitiveatlas: &install_cognitiveatlas
      $HOME/conda/bin/pip uninstall cognitiveatlas --yes || echo "Not installed"
      $HOME/conda/bin/python setup.py install
 
+
 install_python_3: &install_python_3
   name: install Python 3.5 dependencies
   command: | 
@@ -59,8 +60,8 @@ install_python_2: &install_python_2
 test_cognitiveatlas: &test_cognitiveatlas
   name: Test Cognitive Atlas (Used for Python 2 and 3)
   command: |
-        cd ~/repo/cognitiveatlas
-        $HOME/conda/bin/python -m unittest tests.test_api
+        cd ~/repo/cognitiveatlas/tests
+        $HOME/conda/bin/python -m unittest test_api
 
 jobs:
   test-python-3:
