@@ -60,7 +60,7 @@ len(contrasts)
 
 # Step 3: Make a contrast --> concept lookup
 concepts = dict()
-for task_uid,contrast_set in contrasts.iteritems():
+for task_uid,contrast_set in contrasts.items():
     for contrast in contrast_set:
         contrast_uid = contrast["id"]
         if contrast_uid not in concepts:
