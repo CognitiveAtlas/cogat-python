@@ -5,7 +5,7 @@ setup(
     name="cognitiveatlas",
 
     # Version number (initial):
-    version="0.1.9",
+    version="0.1.10",
 
     # Application author details:
     author="Poldracklab",
@@ -25,6 +25,6 @@ setup(
 
     keywords='cogniive atlas cognition behavioral paradigm ontology',
 
-    install_requires = ["numpy","pandas","future"]
+    install_requires = ["numpy","pandas"]
 
 )
