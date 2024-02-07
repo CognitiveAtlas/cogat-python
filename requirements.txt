@@ -1,3 +1,2 @@
 pandas
-future
 numpy

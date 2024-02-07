@@ -1,2 +1,3 @@
 *.py[codt]
 doc/build
+build/*
