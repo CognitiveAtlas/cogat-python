@@ -5,7 +5,7 @@ setup(
     name="cognitiveatlas",
 
     # Version number (initial):
-    version="0.1.10",
+    version="0.1.12rc1",
 
     # Application author details:
     author="Poldracklab",
