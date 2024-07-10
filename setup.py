@@ -9,7 +9,7 @@ setup(
 
     # Application author details:
     author="Poldracklab",
-    author_email="vsochat@stanford.edu",
+    author_email="rblair2@stanford.edu",
 
     # Packages
     packages=["cognitiveatlas"],
